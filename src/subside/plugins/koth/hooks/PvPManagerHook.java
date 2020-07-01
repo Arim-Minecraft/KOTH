@@ -2,30 +2,28 @@ package subside.plugins.koth.hooks;
 
 import java.util.logging.Level;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.NoChance.PvPManager.PvPlayer;
 
 public class PvPManagerHook extends AbstractHook {
     private @Getter @Setter boolean enabled = false;
     
+    /*
+     * Changes by A248:
+     * Disable this hook
+     */
+    
     public PvPManagerHook(HookManager hookManager){
         super(hookManager); // First call the constructor of the parent class
         
-        if(Bukkit.getServer().getPluginManager().isPluginEnabled("PvPManager")){
-            if(getPlugin().getConfigHandler().getHooks().isPvpManager()){
-                enabled = true;
-            }
-        }
-        getPlugin().getLogger().log(Level.INFO, "PvPManager hook: "+(enabled?"Enabled":"Disabled"));
+        getPlugin().getLogger().log(Level.INFO, "PvPManager hook: disabled (A248)");
     }
     
     @Override
     public boolean canCap(Player player) {
-        return !PvPlayer.get(player).isNewbie();
+        return true;
     }
 
 }

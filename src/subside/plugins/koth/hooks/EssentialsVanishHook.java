@@ -2,9 +2,6 @@ package subside.plugins.koth.hooks;
 
 import java.util.logging.Level;
 
-import com.earth2me.essentials.Essentials;
-import net.ess3.api.IEssentials;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import lombok.Getter;
@@ -12,23 +9,21 @@ import lombok.Setter;
 
 public class EssentialsVanishHook extends AbstractHook {
     private @Getter @Setter boolean enabled = false;
-    private IEssentials essentials;
 
+    /*
+     * Changes by A248:
+     * Disable this hook
+     */
+    
     public EssentialsVanishHook(HookManager hookManager){
         super(hookManager); // First call the constructor of the parent class
 
-        if(Bukkit.getServer().getPluginManager().isPluginEnabled("Essentials")){
-            if(getPlugin().getConfigHandler().getHooks().isEssentialsVanish()){
-                enabled = true;
-                essentials = (Essentials)Bukkit.getServer().getPluginManager().getPlugin("Essentials");
-            }
-        }
-        getPlugin().getLogger().log(Level.INFO, "Essentials Vanish hook: "+(enabled?"Enabled":"Disabled"));
+        getPlugin().getLogger().log(Level.INFO, "Essentials Vanish hook: disabled (A248)");
     }
 
     @Override
     public boolean canCap(Player player) {
-        return !essentials.getUser(player).isVanished();
+        return true;
     }
 
 }
