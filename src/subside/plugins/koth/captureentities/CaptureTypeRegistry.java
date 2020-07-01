@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.plugin.PluginManager;
 import subside.plugins.koth.KothPlugin;
 import subside.plugins.koth.gamemodes.KothConquest;
 import subside.plugins.koth.modules.AbstractModule;
@@ -32,7 +31,6 @@ public class CaptureTypeRegistry extends AbstractModule {
         captureTypes.clear();
         captureClasses.clear();
 
-        PluginManager pluginManager = plugin.getServer().getPluginManager();
         ConfigHandler.Hooks hooks = plugin.getConfigHandler().getHooks();
         
         // Add the player entity
@@ -41,40 +39,15 @@ public class CaptureTypeRegistry extends AbstractModule {
         
         // LegacyFactions, Factions, and FactionsUUID
         if(hooks.isFactions()) {
-            if(pluginManager.getPlugin("LegacyFactions") != null){
-                registerCaptureType("legacyfactions", CappingLegacyFactions.class, true);
-            } else if(pluginManager.getPlugin("Factions") != null){
-                try {
-                    // If this class is not found it means that Factions is not in the server
-                    Class.forName("com.massivecraft.factions.entity.FactionColl");
-                    registerCaptureType("faction", CappingFactionNormal.class, true);
-                } catch(ClassNotFoundException e){
-                    // So if the class is not found, we add FactionsUUID instead
-                    registerCaptureType("factionuuid", CappingFactionUUID.class, true);
-                } catch(Exception e){
-                    e.printStackTrace();
-                }
-            }
-        }
-        
-        // Kingdoms
-        if(hooks.isKingdoms() && pluginManager.getPlugin("Kingdoms") != null){
-            registerCaptureType("kingdom", CappingKingdom.class, true);
-        }
+			try {
+				// If this class is not found it means that Factions is not in the server
+				Class.forName("com.massivecraft.factions.entity.FactionColl");
 
-        // Feudal Kingdoms
-        if(hooks.isFeudalKingdoms() && pluginManager.getPlugin("Feudal") != null){
-            registerCaptureType("kingdom", CappingFeudalKingdom.class, true);
-        }
-        
-        // Gangs
-        if(hooks.isGangs() && pluginManager.getPlugin("GangsPlus") != null){
-            registerCaptureType("gang", CappingGang.class, true);
-        }
-        
-        // mcMMO parties
-        if(hooks.isMcMMO() && pluginManager.getPlugin("mcMMO") != null){
-        	registerCaptureType("mcmmoparty", CappingMCMMOParty.class, false);
+				// So if the class is not found, we add FactionsUUID instead
+				registerCaptureType("factionuuid", CappingFactionUUID.class, true);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
         }
     }
     
